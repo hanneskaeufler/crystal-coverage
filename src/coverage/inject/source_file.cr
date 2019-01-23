@@ -65,8 +65,8 @@ class Coverage::SourceFile < Crystal::Visitor
     end
   end
 
-  def initialize(@path, @source, @required_at = 0)
-    @path = Coverage::SourceFile.relative_path_to_project(File.expand_path(@path, "."))
+  def initialize(path, @source, @required_at = 0)
+    @path = Coverage::SourceFile.relative_path_to_project(File.expand_path(path, "."))
     @md5_signature = Digest::MD5.hexdigest(@source)
     @id = Coverage::SourceFile.register_file(self)
   end
@@ -91,6 +91,7 @@ class Coverage::SourceFile < Crystal::Visitor
       io << inject_location << "\n"
 
 
+      puts @path
       unless @path.ends_with?("_spec.cr")
         io << unfold_required(inject_line_traces(astree.to_s))
       else
