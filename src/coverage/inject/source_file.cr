@@ -89,7 +89,13 @@ class Coverage::SourceFile < Crystal::Visitor
 
       # Inject the location of the zero line of current file
       io << inject_location << "\n"
-      io << unfold_required(inject_line_traces(astree.to_s))
+
+
+      unless @path.ends_with?("_spec.cr")
+        io << unfold_required(inject_line_traces(astree.to_s))
+      else
+        io << unfold_required(astree.to_s)
+      end
 
       @enriched_source = io.to_s
     else
