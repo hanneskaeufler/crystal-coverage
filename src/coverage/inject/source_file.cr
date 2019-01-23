@@ -91,10 +91,11 @@ class Coverage::SourceFile < Crystal::Visitor
       io << inject_location << "\n"
 
 
-      puts @path
       unless @path.ends_with?("_spec.cr")
+        puts "Injecting linetraces into: #{@path}"
         io << unfold_required(inject_line_traces(astree.to_s))
       else
+        puts "No traces into: #{@path}"
         io << unfold_required(astree.to_s)
       end
 
